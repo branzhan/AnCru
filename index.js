@@ -20,6 +20,7 @@ app.get('/', function (req, res) {
     res.render('index');
 });
 
+//Hello
 
 //Set a static folder
 app.use(express.static(path.join(__dirname, 'public')));
