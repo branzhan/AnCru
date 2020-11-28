@@ -1,4 +1,4 @@
-function PIECELIST(piece, pieceNum) {
+function PIECEINDEX(piece, pieceNum) {
     return (piece * 10 + pieceNum);         
 }
 
