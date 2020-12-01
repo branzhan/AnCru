@@ -83,6 +83,7 @@ $(function () {
     }
     
     var InCheck = SqAttacked(GameBoard.pieceList[PIECEINDEX(Kings[GameBoard.side], 0)], GameBoard.side^1);
+
     if (InCheck = true) {
       if (GameBoard.side == COLORS.WHITE) {
         status = "Game Over Black Wins";
@@ -129,11 +130,8 @@ $(function () {
 
   function StartSearch() {
     //Add list to choose depth
-    SearchController.depth = MAXDEPTH;
-    var t = $.now();
-    //Can set this to a think time later
-    var thinkt = 4;
-    SearchController.time = thinkt * 1000; 
+    SearchController.depth = 6;
+
     SearchPosition();
 
     MakeMove(SearchController.best);
