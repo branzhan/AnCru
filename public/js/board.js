@@ -61,11 +61,14 @@ function CheckBoard() {
 
     if (GameBoard.side != COLORS.WHITE && GameBoard.side != COLORS.BLACK) {
         console.log("GameBoard.side Error");
+        return false;
     } 
 
     if (GeneratePosKey() != GameBoard.posKey) {
         console.log("GameBoard.posKey Error");
+        return false;
     }
+    return true;
 }
 
 function PrintBoard() {
