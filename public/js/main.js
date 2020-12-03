@@ -230,12 +230,20 @@ $(function () {
 
   var board = ChessBoard("board", config);
 
-  //Button JQuery
+  //Newgame and Takeback Button
   $('#newGameBtn').on('click', function () {
     board.start(false);
     status = "White to Play";
     $("#Status").text(status);
     ParseFen(START_FEN);
+  })
+
+  $('#takeBackBtn').on('click', function () {
+    if (GameBoard.playHist > 0) {
+      TakeMove();
+      GameBoard.play = 0;
+      board.position(currentFen());
+    }
   })
 });
 
