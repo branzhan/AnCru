@@ -27,3 +27,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
+app.post('/gameStart', (req, res)=>{
+    const depth = req.body.depthSelect;
+    const color = req.body.color;
+    const start = true;
+    res.render('index', {depth, color, start});
+});

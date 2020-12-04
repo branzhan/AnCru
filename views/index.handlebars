@@ -1,124 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
-      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
-      crossorigin="anonymous"
-    /> 
-    
-    <link rel="stylesheet" href="./css/chessboard-1.0.0.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="./js/chessboard-1.0.0.min.js"></script>
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script>
-        var config = {
-            draggable: true,
-            dropOffBoard: 'snapback', // this is the default
-            position: 'start'
-        }
-    </script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+    integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous" />
 
-    <title>Hello, world!</title>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
-            </li>
-          </ul>
-        </div>
+  <link rel="stylesheet" href="./css/chessboard-1.0.0.css">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="./js/chessboard-1.0.0.min.js"></script>
+
+  <script>
+    var config = {
+      draggable: true,
+      dropOffBoard: 'snapback', // this is the default
+      position: 'start'
+    }
+  </script>
+
+  <title>AnCru Chess Engine</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">AnCru</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Download</a>
+          </li>
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
+
+  {{#unless start}}
+  <div class="text-center"> 
     <h1>AnCru</h1>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"> Play </button>
+  </div>
+  {{/unless}}
+  <div class="modal fade" id="exampleModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Select Depth</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
+        <form action="/gameStart" method="POST">
           <div class="modal-body">
-            <select class="form-select" aria-label="Default select example">
-              <option selected>Open this select menu</option>
+            <select class="form-select" name="depthSelect" aria-label="Default select example">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
             </select>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Start Black</button>
-            <button type="button" class="btn btn-primary">Start White</button>
-            
+            <button type="submit" name="color" value="1" class="btn btn-primary">Start Black</button>
+            <button type="submit" name="color" value="2" class="btn btn-primary">Start White</button>
+
           </div>
-        </div>
+        </form>
+
+
       </div>
     </div>
-    <div class="container d-flex justify-content-center"> <div id="board" style="width: 600px"></div> </div>
-    <button id="newGameBtn">New Game</button>
-    <button id="takeBackBtn">Takeback</button>
-    <label>Status:</label>
-    <div id="Status"></div>
+  </div>
 
-    <!-- Optional JavaScript -->
-    <!-- Popper.js first, then Bootstrap JS -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"
-    ></script>
+  {{#if start}}
+  <br/>
+  <br/>
+  <div class="container d-flex justify-content-center">
+    <div id="board" style="width: 600px"></div>
+  </div>
+  <button id="newGameBtn">New Game</button>
+  <button id="takeBackBtn">Takeback</button>
+  <label>Status:</label>
+  <div id="Status"></div>
+  {{/if}}
 
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
-      integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
-      crossorigin="anonymous"
-    ></script>
-    
-    <script src="js/defs.js"></script>
-    <script src="js/io.js"></script>
-    <script src="js/board.js"></script>
-    <script src="js/movegen.js"></script>
-    <script src="js/makemove.js"></script>
-    <script src="js/evaluate.js"></script>
-    <script src="js/pvtable.js"></script>
-    <script src="js/search.js"></script>
-    <script src="js/perft.js"></script>
-    <script src="js/main.js"></script>
-  </body>
+  <!-- Optional JavaScript -->
+  <!-- Popper.js first, then Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+    integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+    crossorigin="anonymous"></script>
+
+  <script>var depth = {{depth}}</script>
+  <script>var color = {{color}}</script>
+  <script src="js/defs.js"></script>
+  <script src="js/io.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/movegen.js"></script>
+  <script src="js/makemove.js"></script>
+  <script src="js/evaluate.js"></script>
+  <script src="js/pvtable.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/perft.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
 </html>

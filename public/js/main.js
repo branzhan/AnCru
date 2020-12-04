@@ -130,7 +130,8 @@ $(function () {
 
   function StartSearch() {
     //Add list to choose depth
-    SearchController.depth = 6;
+
+    SearchController.depth = depth;
 
     SearchPosition();
 
