@@ -252,7 +252,6 @@ $(function () {
       onSnapEnd: onSnapEnd,
     };
     console.log("User Plays White");
-    var board = ChessBoard("board", config);
   } else {
     var config = {
       draggable: true,
@@ -262,10 +261,15 @@ $(function () {
       onDrop: onDrop,
       onSnapEnd: onSnapEnd,
     };
-
     console.log("User Plays Black");
-    var board = ChessBoard("board", config);
+
+    MakeMove(SearchController.best);
+    PrintBoard();
+    PreSearch();
+    TakeMove();
   }
+
+  var board = ChessBoard("board", config);
 
   //Newgame and Takeback Button
   $("#newGameBtn").on("click", function () {
