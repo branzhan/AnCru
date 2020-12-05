@@ -10,33 +10,51 @@ $(function () {
   //Configuring the GameBoard
 
   function DrawMaterial() {
-    if (GameBoard.pieceNum[PIECES.wP] != 0 || GameBoard.pieceNum[PieceSlides.bP] != 0) {
+    if (
+      GameBoard.pieceNum[PIECES.wP] != 0 ||
+      GameBoard.pieceNum[PieceSlides.bP] != 0
+    ) {
       return false;
     }
 
-    if (GameBoard.pieceNum[PIECES.wQ] != 0 || GameBoard.pieceNum[PieceSlides.bQ] != 0
-      || GameBoard.pieceNum[PIECES.wR] != 0 || GameBoard.pieceNum[PieceSlides.bR] != 0) {
-        return false;
-    }
-    
-    if (GameBoard.pieceNum[PIECES.wB] > 1 || GameBoard.pieceNum[PieceSlides.bB] > 1) {
-        return false;
-    }
-
-    if (GameBoard.pieceNum[PIECES.wN] > 1 || GameBoard.pieceNum[PieceSlides.bN] > 1) {
-        return false;
+    if (
+      GameBoard.pieceNum[PIECES.wQ] != 0 ||
+      GameBoard.pieceNum[PieceSlides.bQ] != 0 ||
+      GameBoard.pieceNum[PIECES.wR] != 0 ||
+      GameBoard.pieceNum[PieceSlides.bR] != 0
+    ) {
+      return false;
     }
 
-    if ((GameBoard.pieceNum[PIECES.wB] != 0  && GameBoard.pieceNum[PIECES.wN] != 0) || 
-      (GameBoard.pieceNum[PieceSlides.bB] != 0 && GameBoard.pieceNum[PieceSlides.bN] != 0)) {
-        return false;
+    if (
+      GameBoard.pieceNum[PIECES.wB] > 1 ||
+      GameBoard.pieceNum[PieceSlides.bB] > 1
+    ) {
+      return false;
+    }
+
+    if (
+      GameBoard.pieceNum[PIECES.wN] > 1 ||
+      GameBoard.pieceNum[PieceSlides.bN] > 1
+    ) {
+      return false;
+    }
+
+    if (
+      (GameBoard.pieceNum[PIECES.wB] != 0 &&
+        GameBoard.pieceNum[PIECES.wN] != 0) ||
+      (GameBoard.pieceNum[PieceSlides.bB] != 0 &&
+        GameBoard.pieceNum[PieceSlides.bN] != 0)
+    ) {
+      return false;
     }
 
     return true;
   }
 
   function ThreefoldRep() {
-    let i = 0, r = 0;
+    let i = 0,
+      r = 0;
     for (i = 0; i < GameBoard.playHist; i++) {
       if (GameBoard.history[i].posKey == GameBoard.posKey) {
         r++;
@@ -69,7 +87,11 @@ $(function () {
     var MoveNum = 0;
     var found = 0;
 
-    for (MoveNum = GameBoard.moveListStart[GameBoard.play]; MoveNum < GameBoard.moveListStart[GameBoard.play + 1]; MoveNum++) {
+    for (
+      MoveNum = GameBoard.moveListStart[GameBoard.play];
+      MoveNum < GameBoard.moveListStart[GameBoard.play + 1];
+      MoveNum++
+    ) {
       if (MakeMove(GameBoard.moveList[MoveNum]) == false) {
         continue;
       }
@@ -81,23 +103,24 @@ $(function () {
     if (found != 0) {
       return false;
     }
-    
-    var InCheck = SqAttacked(GameBoard.pieceList[PIECEINDEX(Kings[GameBoard.side], 0)], GameBoard.side^1);
 
-    if (InCheck = true) {
+    var InCheck = SqAttacked(
+      GameBoard.pieceList[PIECEINDEX(Kings[GameBoard.side], 0)],
+      GameBoard.side ^ 1
+    );
+
+    if ((InCheck = true)) {
       if (GameBoard.side == COLORS.WHITE) {
         status = "Game Over Black Wins";
         $("#Status").text(status);
         return true;
-      }
-      else {
+      } else {
         status = "Game Over White Wins";
         $("#Status").text(status);
         return true;
       }
-    }
-    else {
-      status = "Game Drawn: Stalemate"
+    } else {
+      status = "Game Drawn: Stalemate";
       $("#Status").text(status);
       return true;
     }
@@ -107,16 +130,14 @@ $(function () {
     if (GameBoard.side == COLORS.WHITE) {
       status = "White to Play";
       $("#Status").text(status);
-    }
-    else {
+    } else {
       status = "Black to Play";
       $("#Status").text(status);
     }
 
     if (InCheck() == true) {
       GameController.GameOver = true;
-    }
-    else {
+    } else {
       GameController.GameOver = false;
     }
   }
@@ -124,7 +145,9 @@ $(function () {
   function PreSearch() {
     if (GameController.GameOver == false) {
       SearchController.thinking = true;
-      setTimeout( function() { StartSearch(); }, 300 );
+      setTimeout(function () {
+        StartSearch();
+      }, 300);
     }
   }
 
@@ -147,35 +170,34 @@ $(function () {
     console.log("Position: " + Chessboard.objToFen(position));
     console.log("Orientation: " + orientation);
     console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    
   }
 
   function MakeUserMove() {
-      if (UserMove.from != SQUARES.NO_SQ && UserMove.to != SQUARES.NO_SQ) {
-        console.log("User Moved: " + printSq(UserMove.from) + printSq(UserMove.to));
-        var parsed = ParseMove(UserMove.from, UserMove.to)
-        if (parsed != NOMOVE) {
-            MakeMove(parsed);
-            PrintBoard();
-            PreSearch();
-        }
-        else {
-          Move = null;
-        }
-        UserMove.from = SQUARES.NO_SQ;
-        UserMove.to = SQUARES.NO_SQ;
+    if (UserMove.from != SQUARES.NO_SQ && UserMove.to != SQUARES.NO_SQ) {
+      console.log(
+        "User Moved: " + printSq(UserMove.from) + printSq(UserMove.to)
+      );
+      var parsed = ParseMove(UserMove.from, UserMove.to);
+      if (parsed != NOMOVE) {
+        MakeMove(parsed);
+        PrintBoard();
+        PreSearch();
+      } else {
+        Move = null;
       }
-
+      UserMove.from = SQUARES.NO_SQ;
+      UserMove.to = SQUARES.NO_SQ;
+    }
   }
 
-  function onDrop (source, target, piece, newPos, oldPos, orientation) {
-    console.log('Source: ' + source)
-    console.log('Target: ' + target)
-    console.log('Piece: ' + piece)
-    console.log('New position: ' + Chessboard.objToFen(newPos))
-    console.log('Old position: ' + Chessboard.objToFen(oldPos))
-    console.log('Orientation: ' + orientation)
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+  function onDrop(source, target, piece, newPos, oldPos, orientation) {
+    console.log("Source: " + source);
+    console.log("Target: " + target);
+    console.log("Piece: " + piece);
+    console.log("New position: " + Chessboard.objToFen(newPos));
+    console.log("Old position: " + Chessboard.objToFen(oldPos));
+    console.log("Orientation: " + orientation);
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
     //Making the move changing to square format
     FromSQ = source;
@@ -184,11 +206,11 @@ $(function () {
     Move = {
       from: UserMove.from,
       to: UserMove.to,
-      promotion: 'q'
-    }
+      promotion: "q",
+    };
 
-    UserMove.from = FR2SQ(fileCharToInt(FromSQ[0]), FromSQ[1] -  1);
-    UserMove.to = FR2SQ(fileCharToInt(ToSQ[0]), ToSQ[1] -  1);
+    UserMove.from = FR2SQ(fileCharToInt(FromSQ[0]), FromSQ[1] - 1);
+    UserMove.to = FR2SQ(fileCharToInt(ToSQ[0]), ToSQ[1] - 1);
 
     MakeUserMove();
 
@@ -200,9 +222,9 @@ $(function () {
     var pawnList = [];
     var sqFile = -1;
     for (pieceNum = 0; pieceNum < GameBoard.pieceNum[PIECES.wP]; pieceNum++) {
-        sq = GameBoard.pieceList[PIECEINDEX(PIECES.wP, pieceNum)];
-        sqFile = SQ64(sq) % 8;
-        pawnList.push(sqFile);
+      sq = GameBoard.pieceList[PIECEINDEX(PIECES.wP, pieceNum)];
+      sqFile = SQ64(sq) % 8;
+      pawnList.push(sqFile);
     }
 
     console.log(pawnList);
@@ -211,41 +233,55 @@ $(function () {
      */
 
     //Checking if it is an illegal move
-    if (Move === null) return 'snapback'   
+    if (Move === null) return "snapback";
   }
 
   //Updating for EnPas, Promotion, Castling
-  function onSnapEnd () {
+  function onSnapEnd() {
     board.position(currentFen());
   }
 
   console.log(currentFen);
 
-  var config = {
-    draggable: true,
-    position: "start",
-    onDragStart: onDragStart,
-    onDrop: onDrop,
-    onSnapEnd: onSnapEnd
-  };
+  if (color == "1") {
+    var config = {
+      draggable: true,
+      position: "start",
+      onDragStart: onDragStart,
+      onDrop: onDrop,
+      onSnapEnd: onSnapEnd,
+    };
+    console.log("User Plays White");
+    var board = ChessBoard("board", config);
+  } else {
+    var config = {
+      draggable: true,
+      position: "start",
+      orientation: "black",
+      onDragStart: onDragStart,
+      onDrop: onDrop,
+      onSnapEnd: onSnapEnd,
+    };
 
-  var board = ChessBoard("board", config);
+    console.log("User Plays Black");
+    var board = ChessBoard("board", config);
+  }
 
   //Newgame and Takeback Button
-  $('#newGameBtn').on('click', function () {
+  $("#newGameBtn").on("click", function () {
     board.start(false);
     status = "White to Play";
     $("#Status").text(status);
     ParseFen(START_FEN);
-  })
+  });
 
-  $('#takeBackBtn').on('click', function () {
+  $("#takeBackBtn").on("click", function () {
     if (GameBoard.playHist > 0) {
       TakeMove();
       GameBoard.play = 0;
       board.position(currentFen());
     }
-  })
+  });
 });
 
 //Assigns each index in the board array a file, rank, and subsequent square

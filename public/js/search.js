@@ -253,8 +253,8 @@ function ClearForSearch() {
 		GameBoard.searchHistory[index] = 0;	
 	}
 	
-	for(index = 0; index < 3 * MAXDEPTH; ++index) {
-		GameBoard.searchKillers[index] = 0;
+	for(index2 = 0; index2 < 3 * MAXDEPTH; ++index2) {
+		GameBoard.searchKillers[index2] = 0;
 	}	
 	
 	ClearPvTable();
@@ -309,14 +309,4 @@ function SearchPosition() {
 	SearchController.best = bestMove;
 	SearchController.thinking = false;
 
-}
-
-function UpdateStats(score, depth) {
-	var scoreText = "Score: " + (score / 100).toFixed(2);
-	var ordering = "";
-	if (Math.abs(score) > MATE - MAXDEPTH) {
-		scoreText = "Score: Mate In" + (MATE - Math.abs(score) - 1) + " moves"; 
-	}
-
-	ordering = " Ordering: " + ((SearchController.fhf/SearchController.fh) * 100).toFixed(2) + "%";
 }

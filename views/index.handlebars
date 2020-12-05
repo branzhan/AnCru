@@ -68,16 +68,16 @@
               <option value="4">4</option>
               <option value="5">5</option>
               <option value="6">6</option>
+              <option value="7">7</option>
             </select>
+            <i>Warning: AnCru tends to crash past depth 5</i>
           </div>
           <div class="modal-footer">
-            <button type="submit" name="color" value="1" class="btn btn-primary">Start Black</button>
-            <button type="submit" name="color" value="2" class="btn btn-primary">Start White</button>
+            <button type="submit" name="color" value="1" class="btn btn-light">Start White</button>
+            <button type="submit" name="color" value="2" class="btn btn-dark">Start Black </button>
 
           </div>
         </form>
-
-
       </div>
     </div>
   </div>
@@ -88,7 +88,7 @@
   <div class="container d-flex justify-content-center">
     <div id="board" style="width: 600px"></div>
   </div>
-  <button id="newGameBtn">New Game</button>
+  <button id="newGameBtn">Restart</button>
   <button id="takeBackBtn">Takeback</button>
   <label>Status:</label>
   <div id="Status"></div>
@@ -105,7 +105,7 @@
     crossorigin="anonymous"></script>
 
   <script>var depth = {{depth}}</script>
-  <script>var color = {{color}}</script>
+  <script>var color = {{color}}</script>  
   <script src="js/defs.js"></script>
   <script src="js/io.js"></script>
   <script src="js/board.js"></script>
